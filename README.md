@@ -9,117 +9,93 @@ To implement a logistic regression model to classify food items for diabetic pat
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1.Logistic Regression is used to classify data into different categories based on input features.
+1.Load Data Import and prepare the dataset to initiate the analysis workflow.
 
-2.Label Encoding converts categorical target values into numerical form for model training.
+2.Explore Data Examine the data to understand key patterns, distributions, and feature relationships.
 
-3.Min-Max Scaling normalizes feature values to improve model performance.
+3.Select Features Choose the most impactful features to improve model accuracy and reduce complexity.
 
-4.Train-Test Split divides the dataset into training and testing sets for evaluation.
+4.Split Data Partition the dataset into training and testing sets for validation purposes.
+
+5.Scale Features Normalize feature values to maintain consistent scales, ensuring stability during training.
+
+6.Train Model with Hyperparameter Tuning Fit the model to the training data while adjusting hyperparameters to enhance performance.
+
+7.Evaluate Model Assess the model’s accuracy and effectiveness on the testing set using performance metrics.
 
 ## Program:
 ```
 /*
 Program to implement Logistic Regression for classifying food choices based on nutritional information.
-Developed by: sathish h
-RegisterNumber: 212225240142
+Developed by: Akil.S
+RegisterNumber: 212225220007
 */
-
-EXP-6
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import LabelEncoder, MinMaxScaler
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
+from sklearn.preprocessing import LabelEncoder,MinMaxScaler
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import accuracy_score,precision_score,recall_score,f1_score,confusion_matrix,classification_report
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Load the dataset
-df = pd.read_csv("food_items.csv")
-
-# Inspect the dataset
-print("Name: sathish h")
-print("Reg. No: 212225240142")
-print("Dataset Overview:")
+#load dataset 
+df=pd.read_csv("food_items.csv")
+#inspect the dataset
+print("Dataset Overview")
 print(df.head())
-
-print("\nDataset Info:")
+print("\ndatset Info")
 print(df.info())
 
-X_raw = df.iloc[:, :-1]
-y_raw = df.iloc[:, -1:]
+X_raw=df.iloc[:, :-1]
+y_raw=df.iloc[:, -1:]
+X_raw
 
-scaler = MinMaxScaler()
+scaler=MinMaxScaler()
+X=scaler.fit_transform(X_raw)
 
-# Scaling the raw input features
-X = scaler.fit_transform(X_raw)
+label_encoder=LabelEncoder()
+y=label_encoder.fit_transform(y_raw.values.ravel())
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,stratify=y,random_state=123)
 
-# Create a LabelEncoder object
-label_encoder = LabelEncoder()
+penalty='l2'
+multi_class='multnomial'
+solver='lbfgs'
+max_iter=1000
 
-# Encode the target variable
-y = label_encoder.fit_transform(y_raw.values.ravel())
-# Note that ravel() function flattens the vector.
+model = LogisticRegression(max_iter=2000)  # Increased max_iter for convergence
+model.fit(X_train, y_train)
 
-# First, let's split the training and testing dataset
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state = 123)
+# Model Prediction
+y_pred = model.predict(X_test)
 
-# L2 penalty to shrink coefficients without removing any features from the model
-penalty= 'l2'
-
-# Our classification problem is multinomial
-multi_class = 'multinomial'
-
-# Use lbfgs for L2 penalty and multinomial classes
-solver = 'lbfgs'
-
-# Max iteration = 1000
-max_iter = 1000
-
-# Define a logistic regression model with above arguments
-l2_model = LogisticRegression(random_state=123, penalty=penalty, multi_class=multi_class, solver=solver, max_iter=max_iter)
-
-l2_model.fit(X_train, y_train)
-
-y_pred = l2_model.predict(X_test)
-
-# Evaluate the model
-print("Name: sathish h")
-print("Reg. No: 212225240142")
-print("\nModel Evaluation:")
-print("Accuracy:", accuracy_score(y_test, y_pred))
-print("\nClassification Report:")
-print(classification_report(y_test, y_pred))
-
-# Confusion Matrix
+# Model Evaluation
+accuracy = accuracy_score(y_test, y_pred)
 conf_matrix = confusion_matrix(y_test, y_pred)
-print(conf_matrix)
+class_report = classification_report(y_test, y_pred)
 
-print("Name: sathish h")
-print("Reg. No: 212225240142")
+print("Model Accuracy:", accuracy)
+print("Confusion Matrix:\n", conf_matrix)
+print("Classification Report:\n", class_report)
+
+# Confusion Matrix Plot
+plt.figure(figsize=(5, 4))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='coolwarm', cbar=False, 
+            xticklabels=label_encoder.classes_, yticklabels=label_encoder.classes_)
+plt.title("Confusion Matrix")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.show()
 ```
 
 ## Output:
 
-Model Evaluation:
-Accuracy: 0.7748868778280543
+<img width="436" height="668" alt="image" src="https://github.com/user-attachments/assets/b58390a1-2db5-456f-be33-4713c453344f" />
+<img width="943" height="351" alt="image" src="https://github.com/user-attachments/assets/9dcda38c-0fab-443a-99bf-adbfb0870f64" />
+<img width="534" height="357" alt="image" src="https://github.com/user-attachments/assets/cf629773-64bc-49bf-affb-270468fb9b3d" />
+<img width="584" height="501" alt="image" src="https://github.com/user-attachments/assets/fc2acb70-0c3d-43c4-9da0-ea713d31baec" />
 
-Classification Report:
-              precision    recall  f1-score   support
-
-           0       0.73      0.87      0.80      1330
-           1       0.84      0.73      0.78      1124
-           2       0.92      0.35      0.51       198
-
-    accuracy                           0.77      2652
-   macro avg       0.83      0.65      0.70      2652
-weighted avg       0.79      0.77      0.77      2652
-
-
-[[1162  162    6]
- [ 301  823    0]
- [ 128    0   70]]
 
 ## Result:
 Thus, the logistic regression model was successfully implemented to classify food items for diabetic patients based on nutritional information, and the model's performance was evaluated using various performance metrics such as accuracy, precision, and recall.
