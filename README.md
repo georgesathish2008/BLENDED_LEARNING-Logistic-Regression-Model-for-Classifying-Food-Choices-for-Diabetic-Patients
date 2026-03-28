@@ -91,11 +91,11 @@ plt.show()
 
 ## Output:
 
-<img width="436" height="668" alt="image" src="https://github.com/user-attachments/assets/b58390a1-2db5-456f-be33-4713c453344f" />
+<img width="517" height="386" alt="image" src="https://github.com/user-attachments/assets/8f1c8555-cbf7-41a7-be6c-6c31aab6c54d" />
+<img width="450" height="358" alt="image" src="https://github.com/user-attachments/assets/f67a26cd-d81e-4d55-aab3-8768f52d749c" />
 <img width="943" height="351" alt="image" src="https://github.com/user-attachments/assets/9dcda38c-0fab-443a-99bf-adbfb0870f64" />
-<img width="534" height="357" alt="image" src="https://github.com/user-attachments/assets/cf629773-64bc-49bf-affb-270468fb9b3d" />
-<img width="584" height="501" alt="image" src="https://github.com/user-attachments/assets/fc2acb70-0c3d-43c4-9da0-ea713d31baec" />
-
+<img width="618" height="160" alt="image" src="https://github.com/user-attachments/assets/d46a23dc-f240-41a0-8fb9-a4a64c7061cf" />
+<img width="614" height="302" alt="image" src="https://github.com/user-attachments/assets/f449183e-d72a-418e-b24a-8034c6f31f2d" />
 
 ## Result:
 Thus, the logistic regression model was successfully implemented to classify food items for diabetic patients based on nutritional information, and the model's performance was evaluated using various performance metrics such as accuracy, precision, and recall.
